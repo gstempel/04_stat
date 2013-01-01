@@ -27,7 +27,17 @@ int main() {
     //mode_t from sys/stat.h has a bunch of useful predefined vars for stuff
         //S_IFMT is one of them, repping entire type of file
     //so using S_IFMT as mask to omit file type and only leave permission info
-    printf("FILE PERMISSIONS ('ugo' format): %o\n", ~S_IFMT & foo->st_mode);
+    printf("FILE PERMISSIONS ");\
+    printf( (foo->st_mode & S_IRUSR) ? "r" : "-");
+    printf( (foo->st_mode & S_IWUSR) ? "w" : "-");
+    printf( (foo->st_mode & S_IXUSR) ? "x" : "-");
+    printf( (foo->st_mode & S_IRGRP) ? "r" : "-");
+    printf( (foo->st_mode & S_IWGRP) ? "w" : "-");
+    printf( (foo->st_mode & S_IXGRP) ? "x" : "-");
+    printf( (foo->st_mode & S_IROTH) ? "r" : "-");
+    printf( (foo->st_mode & S_IWOTH) ? "w" : "-");
+    printf( (foo->st_mode & S_IXOTH) ? "x" : "-");
+    printf("\n\n");
     
 
     //converting epoch time (UNIX timestamp) to human-readable time
