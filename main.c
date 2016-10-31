@@ -8,8 +8,21 @@ int main() {
     printf("error: %d - %s\n", errno, strerror(errno));
   } else {
 
-    printf("\nFILE SIZE: %llu bytes\n", foo->st_size);
-  
+    //PRINTING THE SIZE
+    float size = foo->st_size;
+
+    char s[4][4]= {
+      " B ",
+      " KB",
+      " MB",
+      " GB",
+    };
+    int i = 0;//counter for unit of size
+    while(size / 1024 > 1) {
+      size = size/1024;
+      i++;
+    }
+    printf("\nFILE SIZE:%f%s\n",size,s[i]);
 
     //mode_t from sys/stat.h has a bunch of useful predefined vars for stuff
         //S_IFMT is one of them, repping entire type of file
