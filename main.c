@@ -3,16 +3,19 @@
 int main() {
 
   struct stat *foo = (struct stat *) malloc(sizeof(struct stat));
-  
-  if ( stat("main.c", foo) < 0 ) { //stat getting run here
-    printf("error: %d - %s\n", errno, strerror(errno));
+
+  char path[] = "main.h";
+  if ( stat(path, foo) < 0 ) { //stat getting run here
+    printf("\nERROR: %d - %s\n", errno, strerror(errno));
   } else {
+    
+    printf("\nFILE NAME: %s\n", path);
 
     //PRINTING THE SIZE
     float size = foo->st_size;
 
     char s[4][4]= {
-      " B ",
+      " B",
       " KB",
       " MB",
       " GB",
@@ -22,12 +25,10 @@ int main() {
       size = size/1024;
       i++;
     }
-    printf("\nFILE SIZE:%f%s\n",size,s[i]);
+    printf("FILE SIZE: %f%s\n",size,s[i]);
 
     //mode_t from sys/stat.h has a bunch of useful predefined vars for stuff
-        //S_IFMT is one of them, repping entire type of file
-    //so using S_IFMT as mask to omit file type and only leave permission info
-    printf("FILE PERMISSIONS ");\
+    printf("FILE PERMISSIONS: ");\
     printf( (foo->st_mode & S_IRUSR) ? "r" : "-");
     printf( (foo->st_mode & S_IWUSR) ? "w" : "-");
     printf( (foo->st_mode & S_IXUSR) ? "x" : "-");
@@ -37,7 +38,7 @@ int main() {
     printf( (foo->st_mode & S_IROTH) ? "r" : "-");
     printf( (foo->st_mode & S_IWOTH) ? "w" : "-");
     printf( (foo->st_mode & S_IXOTH) ? "x" : "-");
-    printf("\n\n");
+    printf("\n");
     
 
     //converting epoch time (UNIX timestamp) to human-readable time
@@ -48,8 +49,6 @@ int main() {
     size_t bufSize = 30;
     char *buf = (char *) malloc( sizeof(char) * bufSize );
 
-    //i think printing asctime() gives the same thing
-    //but it's sunday night rn so who gives :)
     strftime(buf, bufSize, "%a %b %d %H:%M:%S %Y\n", &timestamp);
     printf("LAST TIME ACCESSED: %s\n", buf);
 
